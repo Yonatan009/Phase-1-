@@ -1,32 +1,20 @@
 [
     {
-        "os_name": "Yonatan",
+        "os_name": "Try1",
         "os_vm": "Centos",
-        "ram": 128,
-        "cpu": 12
+        "ram": 1,
+        "cpu": 1
     },
     {
-        "os_name": "Vm2",
-        "os_vm": "Ubuntu",
-        "ram": 64,
-        "cpu": 12
-    },
-    {
-        "os_name": "Yonatan",
-        "os_vm": "Ubuntu",
+        "os_name": "Try1",
+        "os_vm": "CentOS",
         "ram": 12,
         "cpu": 12
     },
     {
-        "os_name": "Try",
-        "os_vm": "Ubuntu",
-        "ram": 12,
-        "cpu": 12
-    },
-    {
-        "os_name": "Yonatan",
-        "os_vm": "Centos",
-        "ram": 12,
+        "os_name": "Hi",
+        "os_vm": "CentOS",
+        "ram": 14,
         "cpu": 13
     }
 ]

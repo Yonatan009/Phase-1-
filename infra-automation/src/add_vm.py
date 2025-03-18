@@ -3,13 +3,12 @@
 import json
 import os
 from pydantic import BaseModel, Field, ValidationError
-import re
-
+# TODO: Need to add methods logs if something failed send logs to they file
 class Add_VM(BaseModel):
     # ... required value
     os_name: str = Field(..., min_length=1) #Minimum one letter
-    # user library re to provide valid input from user example "centos" == CentOS valid 
-    os_vm: str = Field(..., pattern=re.compile(r'^(Ubuntu|Windows|CentOS)$', re.IGNORECASE))
+    # test to check valid input from user example "centos" == CentOS 
+    os_vm: str = Field(..., pattern=r'^(Ubuntu|Windows|CentOS)$')
     ram: int = Field(..., ge=1, le=128) #Min one ram and max 128
     cpu: int = Field(..., ge=1, le=16) #Min one cpu and max 16 
     # TODO: need to check how much ram was in computer to maximize
@@ -19,21 +18,31 @@ class Add_VM(BaseModel):
     def get_user_input() -> dict:
         try:
             os_name = input("Enter name your vm: ").strip().capitalize()
-            os_vm = input("Enter witch os system you work example(Ubuntu|Windows|CentOS): ").capitalize().title()
+            os_vm = input("Enter witch os system you work example(Ubuntu|Windows|CentOS): ").strip().lower()
+            # add map to provide they user get the right value and fix errors
+            os_vm_mapping = {
+                "ubuntu":"Ubuntu",
+                "windows":"Windows",
+                "centos":"CentOS"
+            }
+            if os_vm not in os_vm_mapping:
+                print("Error: Invalid OS. Allowed values: Ubuntu, Windows, CentOS")
+                return {}
+            os_vm = os_vm_mapping.get(os_vm,os_vm)
             ram = int(input("Enter how much ram you want in your vm: "))
             cpu = int(input("Enter how much cpu you want in your vm: "))
             user = Add_VM(os_name=os_name, os_vm=os_vm, ram=ram, cpu=cpu)
             print("Your device data is correct.")
             return user.model_dump()
             
-        except ValidationError as e:
+        except ValidationError as e: 
             print("Error invalid input please try again: ")
             print(f"Error type: {e}")
             return {}
         
     @staticmethod
     def save_to_json(user_input: dict):
-        if not user_input:
+        if not user_input: 
             print("Error: can't save empty input")
             return
         
